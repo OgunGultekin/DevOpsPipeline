@@ -25,10 +25,10 @@ pipeline {
 
         stage('Login to DockerHub') {
             steps {
-                script {
-                  withCredentials([usernamePassword(credentialsId: 'dockerhub', passwordVariable: 'DOCKERHUB_TOKEN', usernameVariable: 'DOCKERHUB_USER')]) {
-                   bat "echo %DOCKERHUB_TOKEN% | docker login -u %DOCKERHUB_USER% --password-stdin"
+                 withCredentials([usernamePassword(credentialsId: 'dockerhub', passwordVariable: 'DOCKERHUB_TOKEN', usernameVariable: 'DOCKERHUB_USER')]) {
+                     bat "echo %DOCKERHUB_TOKEN% | docker login -u %DOCKERHUB_USER% --password-stdin"
                  }
+
                 }
             }
         }
