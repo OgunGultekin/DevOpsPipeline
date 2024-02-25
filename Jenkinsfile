@@ -44,7 +44,7 @@ pipeline {
             script{
                withCredentials([string(credentialsId: 'dockerhub', variable: 'dockerhub')]) {
                  //  sh "docker rmi mimaraslan/devops-application:latest"
-                bat 'docker rmi mimaraslan/devops-application:latest'
+                bat 'docker rmi ogungultekin/devopspipeline:latest'
               }
             }
           }
