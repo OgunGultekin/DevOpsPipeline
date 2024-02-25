@@ -39,5 +39,22 @@ pipeline {
                 bat 'docker push ogungultekin/devopspipeline:latest'
             }
         }
+        stage('Cleanup Docker Image') {
+          steps {
+            script{
+               withCredentials([string(credentialsId: 'dockerhub', variable: 'dockerhub')]) {
+                 //  sh "docker rmi mimaraslan/devops-application:latest"
+                bat 'docker rmi mimaraslan/devops-application:latest'
+              }
+            }
+          }
+         }
+        stage('Deploy to Kubernetes') {
+          steps {
+             script{
+                kubernetesDeploy (configs: 'deploymentservice.yaml', kubeconfigId: 'kubernetes')
+             }
+          }
+        }
     }
 }
