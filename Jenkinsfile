@@ -26,7 +26,7 @@ pipeline {
         stage('Login to DockerHub') {
             steps {
                  withCredentials([string(credentialsId: 'dockerhub-token', variable: 'dockerhub-toke')]) {
-                    bat 'echo docker login -u ogungultekin -p ${dockerhub-token}'
+                    bat 'docker login -u ogungultekin -p ${dockerhub-token}'
                  }
 
             }
