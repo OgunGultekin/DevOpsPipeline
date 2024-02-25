@@ -29,8 +29,8 @@ pipeline {
                      bat "echo %DOCKERHUB_TOKEN% | docker login -u %DOCKERHUB_USER% --password-stdin"
                  }
 
-                }
             }
+
         }
 
         stage('Push Docker Image to DockerHub') {
