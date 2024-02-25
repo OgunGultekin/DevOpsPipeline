@@ -32,5 +32,13 @@ public class DevOpsController {
 
         return "DevOps Docker Info: "+ myObj;
     }
+    @GetMapping("/test")
+    public String devopsTest(){
+
+        LocalDateTime myObj = LocalDateTime.now();
+        System.out.println(myObj);
+
+        return "DevOps Docker Info: "+ myObj;
+    }
 
 }
