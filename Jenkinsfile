@@ -39,16 +39,20 @@ pipeline {
                 bat 'docker push ogungultekin/devopspipeline:latest'
             }
         }
+
+
         stage('Cleanup Docker Image') {
           steps {
             script{
-               withCredentials([string(credentialsId: 'dockerhub', variable: 'dockerhub')]) {
+               withCredentials([string(credentialsId: 'dockerhub-token', variable: 'dockerhub-token')]) {
                  //  sh "docker rmi mimaraslan/devops-application:latest"
                 bat 'docker rmi ogungultekin/devopspipeline:latest'
               }
             }
           }
-         }
+        }
+
+
         stage('Deploy to Kubernetes') {
           steps {
              script{
