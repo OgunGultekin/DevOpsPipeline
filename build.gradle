@@ -24,3 +24,12 @@ dependencies {
 tasks.named('test') {
     useJUnitPlatform()
 }
+jar {
+    manifest {
+        attributes(
+                'Implementation-Title': 'DevOps Pipeline Applicatione',
+                'Implementation-Version': version,
+                'Main-Class': 'com.apiteknik.DevOpsPipelineApplication'
+        )
+    }
+}
