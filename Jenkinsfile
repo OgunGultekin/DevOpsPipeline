@@ -1,47 +1,42 @@
 pipeline {
     agent any
-    tools{
+    tools {
         gradle 'Gradle8'
     }
 
     stages {
-        stage('Build Gradle') {
+        stage('Checkout Code') {
             steps {
-                // linux: sh 'maven clean install'
-                // windows bat 'maven clean install'
-                // linux: sh 'gradle clean'
-                checkout scmGit(branches: [[name: '*/master']], extensions: [], userRemoteConfigs: [[url: 'https://github.com/OgunGultekin/DevOpsPipeline']])
-                bat 'gradle clean'
-                bat 'gradle build'
-                bat 'gradle jar'
-                //echo 'Hello World'
+                checkout scm
             }
         }
-        stage('Docker Local') {
+
+        stage('Build with Gradle') {
             steps {
-                bat 'docker build -t ogungultekin/devopspipeline .'
+                bat 'gradle clean build jar'
             }
         }
-        stage('Docker Image to DockerHub') {
+
+        stage('Build Docker Image') {
             steps {
-              script{
-                  withCredentials([string(credentialsId: 'dockerhub', variable: 'dockerhub')]) {
-                   //sh 'echo docker login -u ogungultekin -p ${dockerhub}'
-                   //sh 'docker push ogungultekin/devopspipeline:latest'
-                   bat 'echo docker login -u ogungultekin -p ${dockerhub}'
-                   bat 'docker push ogungultekin/devopspipeline:latest'
+                bat 'docker build -t ogungultekin/devopspipeline:latest .'
+            }
+        }
+
+        stage('Login to DockerHub') {
+            steps {
+                script {
+                    withCredentials([usernamePassword(credentialsId: 'dockerhub', passwordVariable: 'DOCKERHUB_PASSWORD', usernameVariable: 'DOCKERHUB_USER')]) {
+                        bat "echo %DOCKERHUB_PASSWORD% | docker login -u %DOCKERHUB_USER% --password-stdin"
+                    }
                 }
-              }
             }
         }
-        /*
-        stage('to Kubernates') {
+
+        stage('Push Docker Image to DockerHub') {
             steps {
-              script{
-                 kubernetesDeploy configs: '', kubeConfig: [path: ''], kubeconfigId: 'kubernetes', secretName: '', ssh: [sshCredentialsId: '*', sshServer: ''], textCredentials: [certificateAuthorityData: '', clientCertificateData: '', clientKeyData: '', serverUrl: 'https://']
-              }
+                bat 'docker push ogungultekin/devopspipeline:latest'
             }
         }
-        */
     }
 }
