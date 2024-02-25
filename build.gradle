@@ -25,10 +25,13 @@ tasks.named('test') {
     useJUnitPlatform()
 }
 jar {
+    // JAR dosyası için özel bir ad belirle
+    archiveBaseName.set('DevOpsPipeline')
+    // Manifest ayarları
     manifest {
         attributes(
-                'Implementation-Title': 'DevOps Pipeline Applicatione',
-                'Implementation-Version': version,
+                'Implementation-Title': 'DevOps Pipeline Application',
+                'Implementation-Version': project.version,
                 'Main-Class': 'com.apiteknik.DevOpsPipelineApplication'
         )
     }
